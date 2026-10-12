@@ -1,0 +1,151 @@
+/* Portfolio page: plain black background, same look as the profile card */
+body.portfolio-page { background: #000; }
+.portfolio-page .portfolio-panel { padding-top: 110px; padding-bottom: 20px; }
+.portfolio-page .nav a.active { background: rgba(255,255,255,.2); }
+
+.block { width: 100%; max-width: 1400px; margin: 0 auto; padding: 60px 30px 10px; }
+.block .section-title h2 { font-size: 22px; }
+
+/* Projects + campaigns: two cards per row */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.item {
+  display: flex; align-items: center; gap: 20px; padding: 26px 28px;
+  background: #0c0c0c; border: 1px solid #252525; border-radius: 14px;
+  transition: border-color .25s, transform .25s;
+}
+.item:hover { border-color: rgb(255 80 50 / 70%); transform: translateY(-3px); }
+.item .num { color: #ff5032; font-weight: 800; letter-spacing: .12em; font-size: .95rem; }
+.item h3 { color: #fff; font-size: 1.1rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+
+/* Tools: logos only */
+.tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.tool-group h3 { color: #fff; font-size: 1rem; letter-spacing: .1em; margin-bottom: 16px; }
+.logo-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.logo-chip {
+  width: 58px; height: 58px; display: grid; place-items: center;
+  background: #121212; border: 1px solid #252525; border-radius: 14px;
+  transition: transform .25s, border-color .25s;
+}
+.logo-chip:hover { transform: translateY(-3px); border-color: rgb(255 80 50 / 70%); }
+.logo-chip img { width: 30px; height: 30px; object-fit: contain; }
+
+/* Brands: names only */
+.brand-list { display: flex; flex-wrap: wrap; gap: 14px; padding-bottom: 80px; }
+.brand-list span {
+  padding: 16px 26px; border: 1px solid #252525; border-radius: 999px; background: #0c0c0c;
+  color: #fff; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .95rem;
+}
+
+@media (max-width: 900px) { .tools { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } .block { padding: 44px 20px 10px; } }
+
+/* ---------- Scroll reveal (fade + slide up) ---------- */
+.js [data-reveal] { opacity: 0; transform: translateY(42px); transition: opacity .8s ease var(--d, 0ms), transform .8s cubic-bezier(.2,.7,.2,1) var(--d, 0ms); }
+.js [data-reveal].in { opacity: 1; transform: none; }
+.section-title span { display: block; transform-origin: left; }
+.js .section-title[data-reveal] span { transform: scaleX(0); transition: transform .9s ease .35s; }
+.js .section-title[data-reveal].in span { transform: scaleX(1); }
+html { scroll-behavior: smooth; }
+
+/* ---------- Clickable project / campaign cards ---------- */
+a.item { text-decoration: none; position: relative; }
+.item h3 { flex: 1; }
+.item .go { color: #ff5032; font-size: 1.3rem; opacity: .5; transition: transform .25s, opacity .25s; }
+a.item:hover .go { opacity: 1; transform: translate(4px, -4px); }
+a.item:hover { background: #121212; }
+.item { min-height: 84px; }
+
+/* ---------- Tools: pop-in + soft float + hover ---------- */
+.js .logo-chip { opacity: 0; transform: scale(.55) translateY(14px); }
+.js #tools.in .logo-chip {
+  opacity: 1; transform: none;
+  transition: opacity .5s ease calc(var(--i) * 45ms + .2s), transform .55s cubic-bezier(.3,1.5,.5,1) calc(var(--i) * 45ms + .2s);
+  animation: chipFloat 4.5s ease-in-out calc(var(--i) * -.37s) infinite alternate;
+  animation-delay: calc(var(--i) * 45ms + 1s);
+}
+.logo-chip:hover { animation-play-state: paused; transform: translateY(-5px) scale(1.12) !important; box-shadow: 0 10px 24px rgb(255 80 50 / 22%); }
+@keyframes chipFloat { from { translate: 0 0; } to { translate: 0 -4px; } }
+
+/* ---------- Brands ---------- */
+.brand-list span { transition: opacity .8s ease var(--d,0ms), transform .8s cubic-bezier(.2,.7,.2,1) var(--d,0ms), border-color .25s, background .25s; }
+.brand-list span:hover { border-color: rgb(255 80 50 / 70%); background: #151515; }
+.brand-list { padding-bottom: 40px; }
+
+/* ---------- Footer: Let's work together ---------- */
+.contact { position: relative; margin-top: 60px; padding: 90px 24px 28px; text-align: center; border-top: 1px solid #1c1c1c;
+  background: radial-gradient(ellipse at 50% 0%, rgb(255 60 30 / 20%), transparent 60%), #050505; }
+.contact-inner { max-width: 900px; margin: 0 auto; }
+.eyebrow { color: #ff5032; letter-spacing: .3em; text-transform: uppercase; font-size: .8rem; font-weight: 700; margin-bottom: 14px; }
+.contact h2 { color: #fff; font-size: clamp(2.2rem, 7vw, 5rem); line-height: 1.05; font-weight: 800; letter-spacing: -.01em; }
+.contact h2 em { font-style: normal; background: linear-gradient(90deg, #ff5032, #ff9a3c); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.mail { display: inline-flex; align-items: center; gap: 12px; margin: 34px 0 30px; padding: 14px 26px; border: 1px solid #2a2a2a; border-radius: 999px;
+  color: #fff; text-decoration: none; font-weight: 600; font-size: clamp(.95rem, 2.6vw, 1.15rem); word-break: break-all; transition: border-color .25s, transform .25s, background .25s; }
+.mail img { width: 22px; height: 22px; }
+.mail:hover { border-color: #ff5032; background: #121212; transform: translateY(-3px); }
+.socials { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+.soc { width: 60px; height: 60px; display: grid; place-items: center; border-radius: 16px; background: #121212; border: 1px solid #252525;
+  transition: transform .3s cubic-bezier(.3,1.5,.5,1), border-color .25s, box-shadow .25s; }
+.soc img { width: 28px; height: 28px; }
+.soc:hover { transform: translateY(-6px) scale(1.08); border-color: rgb(255 80 50 / 80%); box-shadow: 0 12px 28px rgb(255 80 50 / 25%); }
+.copy { margin-top: 70px; color: #777; font-size: .85rem; }
+
+/* ---------- Side arrows (top / bottom) ---------- */
+.side-arrows { position: fixed; right: max(14px, env(safe-area-inset-right)); top: 50%; transform: translateY(-50%); z-index: 900; display: flex; flex-direction: column; gap: 10px; }
+.side-arrows button { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  background: rgb(20 20 20 / 75%); border: 1px solid rgb(255 255 255 / 18%); backdrop-filter: blur(8px);
+  transition: opacity .3s, transform .25s, background .25s, border-color .25s; }
+.side-arrows svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.side-arrows button:hover { background: #ff3b1d; border-color: #ff3b1d; transform: scale(1.1); }
+.side-arrows button.off { opacity: 0; pointer-events: none; transform: scale(.7); }
+#toBottom svg { animation: nudge 1.8s ease-in-out infinite; }
+#toTop svg { animation: nudgeUp 1.8s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(3px); } }
+@keyframes nudgeUp { 50% { transform: translateY(-3px); } }
+
+@media (max-width: 640px) {
+  .side-arrows { right: 8px; } .side-arrows button { width: 40px; height: 40px; }
+  .contact { padding: 70px 18px 24px; } .soc { width: 54px; height: 54px; }
+  .item { padding: 20px; min-height: 72px; } .item h3 { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal], .js .logo-chip { opacity: 1; transform: none; transition: none; animation: none !important; }
+  html { scroll-behavior: auto; } #toTop svg, #toBottom svg { animation: none; }
+}
+
+/* ---------- Projects: minimal hover animation (black + rgb(255 80 50)) ---------- */
+#projects .project-card {
+  position: relative; isolation: isolate; background: #0a0a0a; border-color: rgb(255 255 255 / 12%);
+  transition: opacity .8s ease var(--d, 0ms), transform .8s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms), border-color .3s ease, box-shadow .3s ease;
+}
+/* soft orange wash that slides in from the left */
+#projects .project-card::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, rgb(255 80 50 / 20%), rgb(255 80 50 / 5%) 65%, transparent);
+  transform: scaleX(0); transform-origin: left; transition: transform .55s cubic-bezier(.2, .7, .2, 1);
+}
+/* thin orange line that draws along the bottom */
+#projects .project-card::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; z-index: 1; pointer-events: none;
+  background: rgb(255 80 50); transform: scaleX(0); transform-origin: left; transition: transform .55s cubic-bezier(.2, .7, .2, 1) .05s;
+}
+#projects .project-card .project-info { transition: transform .4s cubic-bezier(.2, .7, .2, 1); }
+#projects .project-card .project-title h3 { transition: color .3s ease; }
+#projects .project-card .num { transition: color .3s ease, opacity .3s ease; }
+#projects .project-card .project-arrow { border-color: rgb(255 255 255 / 30%); color: #fff; }
+#projects .project-card .project-image1 { overflow: hidden; }
+#projects .project-card .project-image1 img { transition: transform .7s cubic-bezier(.2, .7, .2, 1), filter .4s ease; }
+
+@media (hover: hover) {
+  #projects .project-card:hover { transform: none; border-color: rgb(255 80 50 / 70%); box-shadow: 0 10px 26px rgb(255 80 50 / 12%); }
+  #projects .project-card:hover::before, #projects .project-card:hover::after { transform: scaleX(1); }
+  #projects .project-card:hover .project-info { transform: translateX(4px); }
+  #projects .project-card:hover .project-title h3, #projects .project-card:hover .num { color: rgb(255 80 50); opacity: 1; }
+  #projects .project-card:hover .project-arrow { background: rgb(255 80 50); border-color: rgb(255 80 50); color: #fff; transform: translate(2px, -2px); }
+  #projects .project-card:hover .project-image1 img { transform: scale(1.06); filter: brightness(1.06); }
+}
+/* touch: same effect while pressed */
+#projects .project-card:active::before, #projects .project-card:active::after { transform: scaleX(1); }
+#projects .project-card:active { border-color: rgb(255 80 50 / 70%); }
+@media (prefers-reduced-motion: reduce) {
+  #projects .project-card::before, #projects .project-card::after, #projects .project-info, #projects .project-image1 img { transition: none; }
+}

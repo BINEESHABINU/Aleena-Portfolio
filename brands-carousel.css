@@ -1,0 +1,38 @@
+/* ---------- Brands logo carousel (two rows, opposite directions) ---------- */
+.logo-marquee { --gap: 16px; margin-top: 44px; padding-bottom: 70px; display: grid; gap: var(--gap); touch-action: pan-y; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+.lm-row {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.lm-track { display: flex; gap: var(--gap); width: max-content; animation: lm-scroll var(--dur, 60s) linear infinite; will-change: transform; }
+.lm-row.rev .lm-track { animation-direction: reverse; }
+
+/* stop on mouse hover, keyboard focus, or while touched (.is-paused is set by JS) */
+@media (hover: hover) { .lm-row:hover .lm-track { animation-play-state: paused; } }
+.lm-row:focus-within .lm-track, .logo-marquee.is-paused .lm-track { animation-play-state: paused; }
+@keyframes lm-scroll { to { transform: translateX(calc(-50% - var(--gap) / 2)); } }
+
+.lm-item {
+  flex: none; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; box-sizing: border-box; overflow: hidden;
+  width: clamp(140px, 16vw, 200px); height: clamp(72px, 8vw, 98px); padding: 12px 20px;
+  background: #101010; border: 1px solid #242424; border-radius: 16px;
+  transition: transform .3s cubic-bezier(.3, 1.4, .5, 1), border-color .25s, box-shadow .25s;
+}
+.lm-item.light { background: #f2f2f2; border-color: transparent; }
+@media (hover: hover) { .lm-item:hover { transform: translateY(-4px) scale(1.04); border-color: #ff5032; box-shadow: 0 10px 24px rgb(255 80 50 / 25%); } }
+.lm-item img { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: contain; pointer-events: none; }
+/* shown automatically when a logo file is missing */
+.lm-word { color: #fff; text-align: center; font: 800 clamp(.68rem, 1.3vw, .88rem)/1.25 system-ui, -apple-system, 'Segoe UI', sans-serif; letter-spacing: .06em; text-transform: uppercase; }
+.lm-item.light .lm-word { color: #111; }
+
+@media (max-width: 640px) {
+  .logo-marquee { --gap: 12px; margin-top: 32px; padding-bottom: 50px; }
+  .lm-item { border-radius: 12px; padding: 10px 14px; width: 128px; height: 68px; }
+}
+/* Reduced motion: no animation, rows become swipeable */
+@media (prefers-reduced-motion: reduce) {
+  .lm-row { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .lm-track { animation: none; }
+  .lm-item[aria-hidden="true"] { display: none; }
+}

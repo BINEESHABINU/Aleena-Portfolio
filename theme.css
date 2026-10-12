@@ -1,0 +1,76 @@
+/* ===== Red-gradient hero theme (added on top of style.css — original files untouched) ===== */
+:root { --muted: rgba(255,255,255,.84); --line: rgba(255,255,255,.18); }
+
+body { background: linear-gradient(135deg, #ff2b00 0%, #e4260d 48%, #e5407c 100%) fixed; }
+
+/* floating pill nav, centered */
+.site-header { background: transparent; border-bottom: 0; backdrop-filter: none; }
+.logo { color: #fff; position: relative; z-index: 2; }
+.logo span { color: rgba(255,255,255,.7); }
+.nav {
+  position: absolute; left: 50%; top: 18px; transform: translateX(-50%);
+  padding: 6px 10px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.38);
+  background: rgba(255,255,255,.10); backdrop-filter: blur(14px);
+}
+.nav a, .nav-button { color: #fff; font-weight: 700; }
+.nav a:hover, .nav-button:hover { background: rgba(255,255,255,.2); }
+
+/* hero: portrait centered behind the text */
+.hero { display: block; max-width: none; padding: 0; overflow: hidden; }
+.hero::before { display: none; }
+.hero-visual {
+  position: absolute; inset: 0; min-height: 0; z-index: 1;
+  display: flex; justify-content: center; align-items: flex-end; pointer-events: none;
+}
+.glow { bottom: 6%; background: radial-gradient(circle, rgba(255,255,255,.22), transparent 66%); }
+.portrait-wrap {
+  --tx: 0px; --ty: 0px; --rx: 0deg; --ry: 0deg;
+  width: min(66vw, 118svh, 1000px);
+  transform-origin: 50% 60%; margin-bottom: -6%;
+  transform: perspective(1100px) translate3d(var(--tx), var(--ty), 0) rotateX(var(--rx)) rotateY(var(--ry)) scale(1.1);
+  transition: none;                      /* smoothing is done in tracking.js */
+}
+.portrait-wrap::after { display: none; }
+#heroPortrait { border-radius: 0; filter: none; aspect-ratio: 1280 / 1024;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%); }
+.eye { position: absolute; z-index: 2; pointer-events: none; will-change: transform;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 52%, transparent 74%);
+          mask-image: radial-gradient(ellipse at center, #000 52%, transparent 74%); }
+.follow-label { display: none; }
+
+/* hero text: bottom-left, script name */
+.hero-copy { position: absolute; z-index: 2; left: clamp(22px, 5vw, 72px); bottom: 11vh; max-width: min(480px, 40vw); }
+.eyebrow { display: none; }
+h1 { font-size: 1.05rem; letter-spacing: .28em; text-transform: uppercase; line-height: 1.2; font-weight: 800; color: #fff; }
+h1 span {
+  display: block; margin-top: 4px; color: #fff; text-transform: none; letter-spacing: 0;
+  /* font-family: 'Pacifico', 'Brush Script MT', cursive; font-weight: 400; */
+  font-size: clamp(3.6rem, 8.5vw, 7.5rem); line-height: 1.12; text-shadow: 0 6px 24px rgba(0,0,0,.18);
+}
+.intro { color: #fff; font-weight: 600; max-width: 400px; margin-top: 18px; font-size: clamp(.95rem, 1.15vw, 1.1rem); }
+.primary { background: rgba(255,255,255,.92); border-color: rgba(255,255,255,.92); color: #d9361f; box-shadow: 0 10px 28px rgba(0,0,0,.18); }
+.secondary { background: rgba(255,80,50,.35); border: 1.5px solid rgba(255,255,255,.85); color: #fff; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; backdrop-filter: blur(6px); }
+
+/* other sections on the new background */
+.eyebrow, .tag { color: rgba(255,255,255,.75); }
+.about, .contact, .portfolio-panel { position: relative; z-index: 2; }
+
+@media (max-width: 800px) {
+  .nav { top: 76px; }
+  .portrait-wrap { width: 130vw; }
+  .hero-visual { align-items: center; padding-top: 110px; }
+  .hero-copy { max-width: 90vw; bottom: 6vh; }
+}
+
+/* ===== Cursor-tracking hero, frame engine (hero-tracker.js) =====
+   Only active once assets/hero/frames/ exists. Until then the original hero is untouched. */
+.hero-canvas { display: none; }
+.hero.has-frames .hero-canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+.hero.has-frames .portrait-wrap, .hero.has-frames .glow { display: none; }
+.hero.has-frames { background: var(--hero-bg, transparent); }
+html.hero-frames body { background: var(--hero-bg); }
+
+/* hero bio lines up with the name (an older .intro rule in style.css added 45px of left padding) */
+.hero-copy .intro { padding: 0; }
