@@ -10,7 +10,7 @@
     ['Hottey Smokey', 'hottey-smokey.png'],
     ['Majestic Event Qatar', 'majestic.png'],
     ['Fly Over Wonders Qatar', 'flyover-wonders.png', 'light'],
-    ['Snoonu', 'snoonu.png'],
+    ['Snoonu', 'snoonu.jpeg' ,'light'],
     ['Regency Sealine Camp', 'regency-sealine.png', 'light'],
     ['Ramada Encore Doha Hotel', 'ramada-encore.png', 'light'],
     ['Nextfairs', 'nextfairs.png', 'light'],

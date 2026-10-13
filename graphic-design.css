@@ -2,7 +2,7 @@
    GRAPHIC DESIGN  (scoped: .gd / gd-*)
    Bento grid: 1 tall + 5 cards, with hover animation.
    ========================================================= */
-.gd { --o: rgb(255 80 50); width: 100%; max-width: 1400px; margin: 0 auto; padding: 70px 30px 90px; color: #fff; }
+.gd { --o: rgb(255 80 50); width: 100%; max-width: 1400px; margin: 0 auto;  color: #fff; }
 .gd *, .gd *::before, .gd *::after { box-sizing: border-box; }
 .gd :where(h2, p, figure) { margin: 0; }
 

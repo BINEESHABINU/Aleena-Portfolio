@@ -30,9 +30,15 @@
       b.setAttribute('aria-selected', on);
     });
 
-    // keep the chosen tab visible in the scrolling tab bar (mobile)
-    const activeTab = tabs.find((t) => t.classList.contains('active'));
-    if (activeTab && activeTab.scrollIntoView) activeTab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    // keep the chosen tab visible inside the (mobile) tab bar. Only the bar scrolls sideways,
+    // never the page, and never on first load.
+    if (updateHash) {
+      const bar = root.querySelector('.cp-tabs');
+      const activeTab = tabs.find((t) => t.classList.contains('active'));
+      if (bar && activeTab && bar.scrollWidth > bar.clientWidth) {
+        bar.scrollTo({ left: Math.max(0, activeTab.offsetLeft - 16), behavior: 'smooth' });
+      }
+    }
 
     // pause any video on a page that is no longer showing
     pages.forEach((p) => { if (!p.classList.contains('active')) p.querySelectorAll('video').forEach((v) => v.pause()); });

@@ -40,8 +40,12 @@ body.portfolio-page { background: #000; }
 @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } .block { padding: 44px 20px 10px; } }
 
 /* ---------- Scroll reveal (fade + slide up) ---------- */
-.js [data-reveal] { opacity: 0; transform: translateY(42px); transition: opacity .8s ease var(--d, 0ms), transform .8s cubic-bezier(.2,.7,.2,1) var(--d, 0ms); }
-.js [data-reveal].in { opacity: 1; transform: none; }
+/* top-to-bottom: each block drops in from above while a soft wipe opens downward */
+.js [data-reveal] {
+  opacity: 0; transform: translateY(-28px); clip-path: inset(0 -60px calc(100% - 2px) -60px);   /* 2px sliver stays 'visible' so the scroll observer can see it */
+  transition: opacity .7s ease var(--d, 0ms), transform .95s cubic-bezier(.2,.7,.2,1) var(--d, 0ms), clip-path 1.1s cubic-bezier(.2,.7,.2,1) var(--d, 0ms);
+}
+.js [data-reveal].in { opacity: 1; transform: none; clip-path: inset(-60px -60px -60px -60px); }
 .section-title span { display: block; transform-origin: left; }
 .js .section-title[data-reveal] span { transform: scaleX(0); transition: transform .9s ease .35s; }
 .js .section-title[data-reveal].in span { transform: scaleX(1); }
@@ -108,14 +112,14 @@ a.item:hover { background: #121212; }
   .item { padding: 20px; min-height: 72px; } .item h3 { font-size: 1rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .js [data-reveal], .js .logo-chip { opacity: 1; transform: none; transition: none; animation: none !important; }
+  .js [data-reveal], .js .logo-chip { opacity: 1; transform: none; clip-path: none; transition: none; animation: none !important; }
   html { scroll-behavior: auto; } #toTop svg, #toBottom svg { animation: none; }
 }
 
 /* ---------- Projects: minimal hover animation (black + rgb(255 80 50)) ---------- */
 #projects .project-card {
   position: relative; isolation: isolate; background: #0a0a0a; border-color: rgb(255 255 255 / 12%);
-  transition: opacity .8s ease var(--d, 0ms), transform .8s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms), border-color .3s ease, box-shadow .3s ease;
+  transition: opacity .8s ease var(--d, 0ms), transform .8s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms), clip-path 1s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms), border-color .3s ease, box-shadow .3s ease;
 }
 /* soft orange wash that slides in from the left */
 #projects .project-card::before {
@@ -148,4 +152,58 @@ a.item:hover { background: #121212; }
 #projects .project-card:active { border-color: rgb(255 80 50 / 70%); }
 @media (prefers-reduced-motion: reduce) {
   #projects .project-card::before, #projects .project-card::after, #projects .project-info, #projects .project-image1 img { transition: none; }
+}
+
+
+/* ---------- Footer: white text, white email icon, stylish background ---------- */
+.contact {
+  overflow: hidden; isolation: isolate; border-top: 0; color: #fff;
+  background:
+    radial-gradient(520px 260px at 12% 100%, rgb(255 80 50 / 22%), transparent 70%),
+    radial-gradient(520px 260px at 88% 100%, rgb(255 140 60 / 14%), transparent 70%),
+    radial-gradient(ellipse at 50% 0%, rgb(255 60 30 / 24%), transparent 62%),
+    #060606;
+}
+/* fine dotted grid that fades out toward the bottom */
+.contact::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(rgb(255 255 255 / 16%) 1px, transparent 1.4px); background-size: 22px 22px;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 78%); mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+}
+/* glowing hairline across the top */
+.contact::after {
+  content: ""; position: absolute; left: 50%; top: 0; width: min(760px, 86%); height: 1px; transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgb(255 80 50) 30%, #ff9a3c 70%, transparent); box-shadow: 0 0 18px rgb(255 80 50 / 70%);
+}
+.contact .eyebrow { color: #ff7a5c; }
+.mail {
+  color: #fff; background: rgb(255 255 255 / 7%); border: 1px solid rgb(255 255 255 / 30%);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 10px 30px rgb(0 0 0 / 35%), inset 0 1px 0 rgb(255 255 255 / 12%);
+}
+.mail img { width: 22px; height: 22px; filter: brightness(0) invert(1); }   /* pure white icon */
+.mail span { color: #fff; }
+.mail:hover { color: #fff; background: rgb(255 80 50 / 18%); border-color: rgb(255 80 50); box-shadow: 0 14px 34px rgb(255 80 50 / 28%); }
+.soc { background: rgb(255 255 255 / 6%); border-color: rgb(255 255 255 / 18%); }
+.copy { color: rgb(255 255 255 / 80%); }
+
+
+/* ---------- Flip-up + zoom-in on reveal ---------- */
+/* sections: a gentle flip-up while zooming in (still wipes open from the top) */
+.js [data-reveal] {
+  transform-origin: 50% 100%; backface-visibility: hidden;
+  transform: perspective(1500px) translateY(-18px) rotateX(9deg) scale(.93);
+  transition: opacity .7s ease var(--d, 0ms), transform 1.05s cubic-bezier(.2, .85, .3, 1.08) var(--d, 0ms), clip-path 1.1s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms);
+}
+.js [data-reveal].in { transform: none; }
+/* cards: a stronger flip-up and zoom-in with a little overshoot */
+.js .project-card[data-reveal], .js .gd-card[data-reveal] {
+  transform: perspective(900px) translateY(-14px) rotateX(58deg) scale(.8);
+  transition: opacity .6s ease var(--d, 0ms), transform .95s cubic-bezier(.2, .9, .3, 1.18) var(--d, 0ms), clip-path 1s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms), border-color .3s ease, box-shadow .3s ease;
+}
+.js .project-card[data-reveal].in, .js .gd-card[data-reveal].in { transform: none; }
+/* stagger the project cards one after another */
+#projects .project-card:nth-child(2) { --d: 90ms; } #projects .project-card:nth-child(3) { --d: 180ms; }
+#projects .project-card:nth-child(4) { --d: 270ms; } #projects .project-card:nth-child(5) { --d: 360ms; } #projects .project-card:nth-child(6) { --d: 450ms; }
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal], .js .project-card[data-reveal], .js .gd-card[data-reveal] { transform: none; transition: none; }
 }

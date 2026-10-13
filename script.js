@@ -15,19 +15,6 @@ window.addEventListener('pointermove', (event) => {
 
   cursorDot.style.left = `${targetX}px`;
   cursorDot.style.top = `${targetY}px`;
-
-  if (!scene) return;
-  const rect = scene.getBoundingClientRect();
-  const x = (event.clientX - rect.left) / rect.width - 0.5;
-  const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-  if (rect.top < event.clientY && event.clientY < rect.bottom) {
-    scene.style.setProperty('--portrait-x', `${x * 22}px`);
-    scene.style.setProperty('--portrait-y', `${y * 16}px`);
-    scene.style.setProperty('--portrait-r', `${x * 1.5}deg`);
-    document.documentElement.style.setProperty('--mouse-x', `${event.clientX}px`);
-    document.documentElement.style.setProperty('--mouse-y', `${event.clientY}px`);
-  }
 });
 
 function animateCursor() {

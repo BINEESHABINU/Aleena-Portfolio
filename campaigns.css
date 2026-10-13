@@ -60,8 +60,31 @@
 
 /* ---------- pages ---------- */
 .cp-page { display: none; }
-.cp-page.active { display: block; animation: cpIn .35s ease both; }
-@keyframes cpIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+/* campaign switch: every block drops in from the top, one after another */
+.cp-page.active { display: block; }
+.cp.in .cp-page.active > * { animation: cpDrop .8s cubic-bezier(.2, .8, .3, 1.1) backwards; }
+.cp.in .cp-page.active > :nth-child(2) { animation-delay: .08s; }
+.cp.in .cp-page.active > :nth-child(3) { animation-delay: .16s; }
+.cp.in .cp-page.active > :nth-child(4) { animation-delay: .24s; }
+.cp.in .cp-page.active > :nth-child(5) { animation-delay: .32s; }
+.cp.in .cp-page.active > :nth-child(6) { animation-delay: .40s; }
+.cp.in .cp-page.active > :nth-child(n+7) { animation-delay: .48s; }
+@keyframes cpDrop {
+  from { opacity: 0; transform: perspective(1200px) translateY(-18px) rotateX(10deg) scale(.93); transform-origin: 50% 100%; clip-path: inset(0 -40px calc(100% - 2px) -40px); }
+  to   { opacity: 1; transform: none; transform-origin: 50% 100%; clip-path: inset(-40px -40px -40px -40px); }
+}
+/* the cards inside each campaign flip up and zoom in, one after another */
+.cp.in .cp-page.active .cp-metric, .cp.in .cp-page.active .cp-card, .cp.in .cp-page.active .cp-creative { animation: cpFlip .85s cubic-bezier(.2, .9, .3, 1.18) backwards; }
+.cp.in .cp-page.active .cp-metric:nth-child(1) { animation-delay: .20s; } .cp.in .cp-page.active .cp-metric:nth-child(2) { animation-delay: .27s; }
+.cp.in .cp-page.active .cp-metric:nth-child(3) { animation-delay: .34s; } .cp.in .cp-page.active .cp-metric:nth-child(4) { animation-delay: .41s; }
+.cp.in .cp-page.active .cp-metric:nth-child(5) { animation-delay: .48s; } .cp.in .cp-page.active .cp-metric:nth-child(6) { animation-delay: .55s; }
+.cp.in .cp-page.active .cp-card { animation-delay: .35s; } .cp.in .cp-page.active .cp-side .cp-card:nth-child(2) { animation-delay: .5s; }
+.cp.in .cp-page.active .cp-creative { animation-delay: .15s; }
+@keyframes cpFlip {
+  from { opacity: 0; transform: perspective(900px) rotateX(58deg) scale(.8); transform-origin: 50% 100%; }
+  to   { opacity: 1; transform: none; transform-origin: 50% 100%; }
+}
+
 
 /* ---------- hero ---------- */
 .cp-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: clamp(28px, 4vw, 56px); align-items: start; margin-bottom: 34px; }
@@ -232,7 +255,7 @@
   .cp-creative { flex-basis: 74%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cp-page.active, .cp-page.active .cp-track i, .cp-page.active .cp-split i, .cp-page.active .cp-col i { animation: none; }
+  .cp.in .cp-page.active > *, .cp.in .cp-page.active .cp-metric, .cp.in .cp-page.active .cp-card, .cp.in .cp-page.active .cp-creative, .cp-page.active .cp-track i, .cp-page.active .cp-split i, .cp-page.active .cp-col i { animation: none; }
   .cp-tab::after, .cp-creative { transition: none; }
 }
 
