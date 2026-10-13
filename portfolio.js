@@ -5,7 +5,7 @@ const items = [...document.querySelectorAll('[data-reveal]')];
 let pending = items.slice(), ticking = false;
 function checkReveal() {
   ticking = false;
-  const line = window.innerHeight - 40;
+  const line = window.innerHeight * 0.86;   // start once ~14% of the block is on screen, so the animation is seen
   pending = pending.filter((el) => {
     if (el.getBoundingClientRect().top < line) { el.classList.add('in'); return false; }
     return true;
