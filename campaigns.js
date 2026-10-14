@@ -92,9 +92,6 @@
     }, { once: true });
     slot.prepend(el);
     slot.classList.add('has-media');
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'cp-change'; b.textContent = 'Change';
-    slot.appendChild(b);
   }
   const isVid = (s) => /\.(mp4|webm|mov|m4v)(\?|$)/i.test(s);
 
